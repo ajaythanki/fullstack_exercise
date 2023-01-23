@@ -1,11 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+/*
+==================================================
+Exercises 2.6.-2.10. starts
+exercise: 2.6: The Phonebook Step1
+exercise: 2.7: The Phonebook Step2
+exercise: 2.8: The Phonebook Step3
+exercise: 2.9*: The Phonebook Step4
+exercise: 2.10: The Phonebook Step5
 
-function App() {
+==================================================
+*/
+
 import { useState } from "react";
 import AddNew from "./components/AddNew";
 import Filter from "./components/Filter";
 import Persons from "./components/Persons";
+
+const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
     { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
@@ -16,6 +26,7 @@ import Persons from "./components/Persons";
   const [newNumber, setNewNumber] = useState("");
   const [filteredData, setFilteredData] = useState("");
   const [showAll, setShowAll] = useState(true);
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -28,33 +39,21 @@ import Persons from "./components/Persons";
   const personsToShow = showAll
     ? persons
     : persons.filter((person) => person.name.toLowerCase().includes(filteredData.toLowerCase()));
+
   const newNameHandler = (e)=>{
     setNewName(e.target.value);
   }
+  
   const newNumberHandler = (e)=>{
     setNewNumber(e.target.value);
   }
+  
   const handleFilter = (e) => {
     console.log(e.target.value);
     setFilteredData(e.target.value);
     setShowAll(!showAll)
   };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     <div>
       <h2>Phonebook</h2>
       <Filter filteredData={filteredData} handleFilter={handleFilter}/>
@@ -68,7 +67,6 @@ import Persons from "./components/Persons";
       <Persons personsToShow={personsToShow}/>
     </div>
   );
-}
 };
 
 export default App;
