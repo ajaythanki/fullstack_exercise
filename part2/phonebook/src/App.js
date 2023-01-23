@@ -4,6 +4,7 @@ import './App.css';
 function App() {
 import { useState } from "react";
 import AddNew from "./components/AddNew";
+import Filter from "./components/Filter";
 import Persons from "./components/Persons";
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -55,6 +56,8 @@ import Persons from "./components/Persons";
         </a>
       </header>
     <div>
+      <h2>Phonebook</h2>
+      <Filter filteredData={filteredData} handleFilter={handleFilter}/>
       <AddNew
       onSubmitHandler={handleOnSubmit}
       newName={newName}
