@@ -38,33 +38,35 @@ const App = () => {
   };
   const personsToShow = showAll
     ? persons
-    : persons.filter((person) => person.name.toLowerCase().includes(filteredData.toLowerCase()));
+    : persons.filter((person) =>
+        person.name.toLowerCase().includes(filteredData.toLowerCase())
+      );
 
-  const newNameHandler = (e)=>{
+  const newNameHandler = (e) => {
     setNewName(e.target.value);
-  }
-  
-  const newNumberHandler = (e)=>{
+  };
+
+  const newNumberHandler = (e) => {
     setNewNumber(e.target.value);
-  }
-  
+  };
+
   const handleFilter = (e) => {
     console.log(e.target.value);
     setFilteredData(e.target.value);
-    setShowAll(!showAll)
+    setShowAll(!showAll);
   };
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter filteredData={filteredData} handleFilter={handleFilter}/>
+      <Filter filteredData={filteredData} handleFilter={handleFilter} />
       <AddNew
-      onSubmitHandler={handleOnSubmit}
-      newName={newName}
-      newNameHandler={newNameHandler}
-      newNumber={newNumber}
-      newNumberHandler={newNumberHandler}
+        onSubmitHandler={handleOnSubmit}
+        newName={newName}
+        newNameHandler={newNameHandler}
+        newNumber={newNumber}
+        newNumberHandler={newNumberHandler}
       />
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} />
     </div>
   );
 };
