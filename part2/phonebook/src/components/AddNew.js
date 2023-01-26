@@ -13,11 +13,13 @@ const AddNew = (props) => {
         <div>
           <InputField
             title={"Name: "}
+            inputType={"text"}
             fieldValue={newName}
             onChangeHandler={newNameHandler}
           />
           <InputField
             title={"Number: "}
+            inputType={"number"}
             fieldValue={newNumber}
             onChangeHandler={newNumberHandler}
           />

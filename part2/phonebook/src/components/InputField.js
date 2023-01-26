@@ -1,7 +1,7 @@
-const InputField = ({ title, fieldValue, onChangeHandler }) => {
+const InputField = ({ title,inputType, fieldValue, onChangeHandler }) => {
   return (
     <p>
-      {title} <input value={fieldValue} onChange={(e) => onChangeHandler(e)} />
+      {title} <input type={inputType} value={fieldValue} onChange={(e) => onChangeHandler(e)} />
     </p>
   );
 };
