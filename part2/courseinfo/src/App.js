@@ -12,11 +12,16 @@ import Notes from "./components/Notes";
 import noteService from "./services/notes"
 import Courses from "./components/Courses";
 import { useState, useEffect } from "react";
+import Notification from './components/Notification'
+import Footer from './components/Footer'
+
+
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
-  
+  const [errorMessage, setErrorMessage] = useState('some error happened...')
+
   const hook = () => {
     noteService
       .getAll()
@@ -106,6 +111,7 @@ const App = () => {
     <div>
       <div>
         <h1>Notes</h1>
+        <Notification message={errorMessage}/>
         <div>
           <button onClick={() => setShowAll(!showAll)}>
             show {showAll ? 'important' : 'all' }
@@ -124,6 +130,7 @@ const App = () => {
       {courses.map((course) => (
         <Courses key={course.id} course={course} />
       ))}
+      <Footer />
     </div>
   );
 };
