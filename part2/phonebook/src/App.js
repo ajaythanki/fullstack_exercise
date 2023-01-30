@@ -13,6 +13,8 @@ exercise: 2.12: Phonebook step7
 exercise: 2.13: Phonebook step8
 exercise: 2.14: Phonebook step9
 exercise: 2.15*: Phonebook step10
+exercise: 2.16: Phonebook step11
+exercise: 2.17*: Phonebook step12
 
 ==================================================
 */
@@ -20,6 +22,7 @@ exercise: 2.15*: Phonebook step10
 import { useState, useEffect } from "react";
 import AddNew from "./components/AddNew";
 import Filter from "./components/Filter";
+import Notification from "./components/Notification";
 import Persons from "./components/Persons";
 import personService from "./services/person";
 
@@ -29,12 +32,20 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filteredData, setFilteredData] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [notificationMessage, setNotificationMessage] = useState({})
 
   const hook = () => {
     personService.getAll().then((initialPersons) => setPersons(initialPersons));
   };
   useEffect(hook, []);
+  const showNotification = (msg,msgType)=> {
+    setNotificationMessage({ message: msg, messageType: msgType });
 
+    setTimeout(() => {
+      setNotificationMessage({});
+    }, 3000);
+
+  }
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -55,9 +66,15 @@ const App = () => {
             newPersons.map((person) => {
               if (person.id === res.id) person.number = res.number;
               return person;
-            });
-            console.log(newPersons);
+            })
             setPersons(newPersons);
+            showNotification(`Updated number of ${name} to ${newNumber}`,'success');
+          })
+          .catch(error => {
+            showNotification(`Information of '${name}' has already been removed from server`,'error');
+            setPersons(persons.filter(p => p.id !== id));
+            console.log(error);
+            return;
           });
       }
       return;
@@ -68,6 +85,8 @@ const App = () => {
         setPersons(persons.concat(newObject));
         setNewName("");
         setNewNumber("");
+        let msg = `Added ${newObject.name}`;
+        showNotification(msg,'success');
       });
   };
   const personsToShow = showAll
@@ -82,6 +101,7 @@ const App = () => {
       personService.deletePerson(id).then((status) => {
         if (status === 200) {
           setPersons(persons.filter((p) => p.id !== id));
+          showNotification(`Information of '${name}' has been removed.`,'error');
         } else {
           alert(`Cound not Delete ${name}`);
         }
@@ -104,6 +124,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage.message} messageType={notificationMessage.messageType}/>
       <Filter filteredData={filteredData} handleFilter={handleFilter} />
       <AddNew
         onSubmitHandler={handleOnSubmit}
