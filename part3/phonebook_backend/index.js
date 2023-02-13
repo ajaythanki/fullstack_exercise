@@ -1,6 +1,6 @@
-//============================================================
-//============================================================
 /*
+============================================================
+============================================================
 Exercises 3.1.-3.6.
 Exercise: 3.1: Phonebook backend step1
 Exercise: 3.2: Phonebook backend step2
@@ -8,14 +8,23 @@ Exercise: 3.3: Phonebook backend step3
 Exercise: 3.4: Phonebook backend step4
 Exercise: 3.5: Phonebook backend step5
 Exercise: 3.6: Phonebook backend step6
+
+Exercises 3.7.-3.8.
+Exercise: 3.7: Phonebook backend step7
+Exercise: 3.8: Phonebook backend step8
+
+============================================================
+============================================================
 */
-//============================================================
-//============================================================
 
 const express = require("express");
 const app = express();
-app.use(express.json());
+const morgan = require('morgan')
 
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(express.json());
 let persons = [
   {
     id: 1,
