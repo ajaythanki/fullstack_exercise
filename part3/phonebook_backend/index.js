@@ -13,6 +13,10 @@ Exercises 3.7.-3.8.
 Exercise: 3.7: Phonebook backend step7
 Exercise: 3.8: Phonebook backend step8
 
+Exercises 3.9.-3.11.
+Exercise: 3.9 phonebook backend step9
+Exercise: 3.10 phonebook backend step10
+Exercise: 3.11 phonebook full stack
 ============================================================
 ============================================================
 */
@@ -20,11 +24,14 @@ Exercise: 3.8: Phonebook backend step8
 const express = require("express");
 const app = express();
 const morgan = require('morgan')
+const cors = require('cors')
 
+app.use(express.static('build'))
 morgan.token('body', (req, res) => JSON.stringify(req.body));
-
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(express.json());
+app.use(cors())
+
 let persons = [
   {
     id: 1,

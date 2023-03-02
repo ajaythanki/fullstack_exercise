@@ -99,7 +99,7 @@ const App = () => {
     const { name } = result[0];
     if (window.confirm(`Delete ${name} ?`)) {
       personService.deletePerson(id).then((status) => {
-        if (status === 200) {
+        if (status === 204) {
           setPersons(persons.filter((p) => p.id !== id));
           showNotification(`Information of '${name}' has been removed.`,'error');
         } else {
