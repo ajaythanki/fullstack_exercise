@@ -6,4 +6,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/api/notes/4
+DELETE http://localhost:3001/api/notes/640dd417947c4222e5f327c8
+###
+
+DELETE https://nodejsexercise.akthanki.repl.co/api/notes/640dda0cd31781e232f90774
