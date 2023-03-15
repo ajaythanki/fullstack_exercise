@@ -17,67 +17,68 @@ Exercises 3.9.-3.11.
 Exercise: 3.9 phonebook backend step9
 Exercise: 3.10 phonebook backend step10
 Exercise: 3.11 phonebook full stack
+
+Exercises 3.13.-3.14.
+3.13: Phonebook database, step1
+3.14: Phonebook database, step2
+
+Exercises 3.15.-3.18.
+3.15: Phonebook database, step3
+3.16: Phonebook database, step4
+3.17*: Phonebook database, step5
+3.18*: Phonebook database step6
+
 ============================================================
 ============================================================
 */
-
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const morgan = require('morgan')
-const cors = require('cors')
-
-app.use(express.static('build'))
-morgan.token('body', (req, res) => JSON.stringify(req.body));
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+const morgan = require("morgan");
+const cors = require("cors");
+const Person = require("./models/person");
+app.use(express.static("build"));
+morgan.token("body", (req, res) => JSON.stringify(req.body));
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body")
+);
 app.use(express.json());
-app.use(cors())
-
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+app.use(cors());
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  Person.find()
+    .then((persons) => {
+      res.json(persons);
+    })
+    .catch((error) => console.log(error));
 });
 app.get("/info/", (req, res) => {
-  let date = new Date().toString("en-US", {
-    timeZoneName: "short",
-    timeZoneName: "long",
-  });
-  res.send(`
-  <p>Phonebook has info for ${persons.length} people</p>
-  <p>${date}</p>
-  `);
+  Person.find()
+    .then((persons) => {
+      let date = new Date().toString("en-US", {
+        timeZoneName: "short",
+        timeZoneName: "long",
+      });
+
+      res.send(`
+    <p>Phonebook has info for ${persons.length} people</p>
+    <p>${date}</p>
+    `);
+    })
+    .catch((error) => console.log(error));
 });
-app.get("/api/persons/:id", (req, res) => {
-  const person = persons.find((p) => p.id === Number(req.params.id));
-  if (person) res.json(person);
-  else res.status(404).end();
+app.get("/api/persons/:id", (req, res, next) => {
+  Person.findById(req.params.id)
+    .then((person) => {
+      if (person) res.json(person);
+      else res.status(404).end();
+    })
+    .catch((error) => {
+      console.log(error);
+      next(error);
+    });
 });
 
-const generateId = () => {
-  const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-  return maxId + 1;
-};
 app.post("/api/persons", (req, res) => {
   const body = req.body;
 
@@ -86,29 +87,70 @@ app.post("/api/persons", (req, res) => {
       error: "The name or number is missing",
     });
   }
-  isAlreadyExist = persons.find((p) => p.name === body.name);
+  let isAlreadyExist = false;
+  Person.find({ name: body.name })
+    .then((person) => {
+      isAlreadyExist = true;
+    })
+    .catch((error) => console.log(error));
+
+  console.log(isAlreadyExist);
   if (isAlreadyExist) {
     return res.status(400).json({
       error: "The name already exists in the phonebook",
     });
   }
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
+
+  person
+    .save()
+    .then((savedPerson) => res.json(savedPerson))
+    .catch((error) => console.log(error));
+});
+app.put("/api/persons/:id", (req, res, next) => {
+  const body = req.body;
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({
+      error: "The name or number is missing",
+    });
+  }
+
   const person = {
     name: body.name,
     number: body.number,
-    id: generateId(),
   };
-
-  persons = persons.concat(person);
-
-  res.json(person);
+  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      res.json(updatedPerson);
+    })
+    .catch((error) => next(error));
 });
 
-app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  persons = persons.filter((p) => p.id !== id);
-
-  res.status(204).end();
+app.delete("/api/persons/:id", (req, res, next) => {
+  Person.findByIdAndDelete(req.params.id)
+    .then((deletedPerson) => {
+      console.log(deletedPerson);
+      res.status(204).end();
+    })
+    .catch((error) => next(error));
 });
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+// this has to be the last loaded middleware.
+app.use(errorHandler);
 
 const PORT = 3001;
 app.listen(PORT, () => {
