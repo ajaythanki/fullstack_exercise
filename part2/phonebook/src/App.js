@@ -69,6 +69,8 @@ const App = () => {
             })
             setPersons(newPersons);
             showNotification(`Updated number of ${name} to ${newNumber}`,'success');
+            setNewName('');
+            setNewNumber('');
           })
           .catch(error => {
             showNotification(`Information of '${name}' has already been removed from server`,'error');
