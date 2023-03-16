@@ -19,7 +19,7 @@ const AddNew = (props) => {
           />
           <InputField
             title={"Number: "}
-            inputType={"number"}
+            inputType={"text"}
             fieldValue={newNumber}
             onChangeHandler={newNumberHandler}
           />
