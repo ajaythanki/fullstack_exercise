@@ -33,6 +33,8 @@ Exercises 3.19.-3.21.
 3.20*: Phonebook database, step8
 3.21 Deploying the database backend to production
 
+Exercise 3.22.
+3.22: Lint configuration
 ============================================================
 ============================================================
 */
@@ -43,6 +45,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const Person = require("./models/person");
 app.use(express.static("build"));
+// eslint-disable-next-line no-unused-vars
 morgan.token("body", (req, res) => JSON.stringify(req.body));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
@@ -62,6 +65,7 @@ app.get("/info/", (req, res) => {
     .then((persons) => {
       let date = new Date().toString("en-US", {
         timeZoneName: "short",
+        // eslint-disable-next-line no-dupe-keys
         timeZoneName: "long",
       });
 
@@ -88,7 +92,7 @@ app.post("/api/persons", (req, res, next) => {
   const body = req.body;
   let isAlreadyExist = false;
   Person.find({ name: body.name })
-    .then((person) => {
+    .then(() => {
       isAlreadyExist = true;
     })
     .catch((error) => console.log(error));
