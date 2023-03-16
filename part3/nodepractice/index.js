@@ -49,16 +49,21 @@ app.post("/api/notes", (request, response, next) => {
     important: body.important || false,
   });
 
-  note.save().then((savedNote) => {
-    response.json(savedNote);
-  }).catch(error=> next(error));
+  note
+    .save()
+    .then((savedNote) => {
+      response.json(savedNote);
+    })
+    .catch((error) => next(error));
 });
 app.put("/api/notes/:id", (request, response, next) => {
-  const { content, important } = request.body
+  const { content, important } = request.body;
 
-  Note.findByIdAndUpdate(request.params.id,
+  Note.findByIdAndUpdate(
+    request.params.id,
     { content, important },
-    { new: true, runValidators: true, context: 'query'})
+    { new: true, runValidators: true, context: "query" }
+  )
     .then((updatedNote) => {
       response.json(updatedNote);
     })
@@ -67,7 +72,7 @@ app.put("/api/notes/:id", (request, response, next) => {
 
 app.delete("/api/notes/:id", (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)
-    .then((result) => {
+    .then(() => {
       console.log(request.params.id);
       response.status(204).end();
     })
@@ -77,18 +82,18 @@ app.delete("/api/notes/:id", (request, response, next) => {
 app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+  console.error(error.message);
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  }else if(error.name === 'ValidationError')
-    return response.status(400).json({ error: error.message })
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError")
+    return response.status(400).json({ error: error.message });
 
-  next(error)
-}
+  next(error);
+};
 
 // this has to be the last loaded middleware.
-app.use(errorHandler)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
