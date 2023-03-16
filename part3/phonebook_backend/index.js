@@ -28,6 +28,11 @@ Exercises 3.15.-3.18.
 3.17*: Phonebook database, step5
 3.18*: Phonebook database step6
 
+Exercises 3.19.-3.21.
+3.19*: Phonebook database, step7
+3.20*: Phonebook database, step8
+3.21 Deploying the database backend to production
+
 ============================================================
 ============================================================
 */
@@ -79,14 +84,8 @@ app.get("/api/persons/:id", (req, res, next) => {
     });
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const body = req.body;
-
-  if (!body.name || !body.number) {
-    return res.status(400).json({
-      error: "The name or number is missing",
-    });
-  }
   let isAlreadyExist = false;
   Person.find({ name: body.name })
     .then((person) => {
@@ -108,22 +107,16 @@ app.post("/api/persons", (req, res) => {
   person
     .save()
     .then((savedPerson) => res.json(savedPerson))
-    .catch((error) => console.log(error));
+    .catch((error) => next(error));
 });
 app.put("/api/persons/:id", (req, res, next) => {
-  const body = req.body;
+  const { name, number } = req.body;
 
-  if (!body.name || !body.number) {
-    return res.status(400).json({
-      error: "The name or number is missing",
-    });
-  }
-
-  const person = {
-    name: body.name,
-    number: body.number,
-  };
-  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+  Person.findByIdAndUpdate(
+    req.params.id,
+    { name, number },
+    { new: true, runValidators: true, context: "query" }
+  )
     .then((updatedPerson) => {
       res.json(updatedPerson);
     })
@@ -139,12 +132,13 @@ app.delete("/api/persons/:id", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, req, res, next) => {
   console.error(error.message);
 
   if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  }
+    return res.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError")
+    return res.status(400).json({ error: error.message });
 
   next(error);
 };

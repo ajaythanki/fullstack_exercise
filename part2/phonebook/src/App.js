@@ -89,6 +89,10 @@ const App = () => {
         setNewNumber("");
         let msg = `Added ${newObject.name}`;
         showNotification(msg,'success');
+      }).catch(error=>{
+        console.log(error.response.data.error)
+        showNotification(error.response.data.error,'error');
+
       });
   };
   const personsToShow = showAll
