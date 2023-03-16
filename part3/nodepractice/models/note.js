@@ -4,7 +4,7 @@ mongoose.set("strictQuery", false);
 
 mongoose
   .connect(url)
-  .then((result) => console.log("db connected"))
+  .then(() => console.log("db connected"))
   .catch((error) => console.log(error.message));
 
 const noteSchema = new mongoose.Schema({
