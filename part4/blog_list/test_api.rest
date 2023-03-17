@@ -1,0 +1,12 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+"title": "Blog 1", "author": "Ajay Thanki", "url": "/blog-1", "likes": "10"
+}
+
+###
+GET http://localhost:3003/api/blogs
+###
+
+DELETE https://nodejsexercise.akthanki.repl.co/api/notes/640dda0cd31781e232f90774
