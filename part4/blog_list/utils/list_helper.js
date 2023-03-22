@@ -73,7 +73,6 @@ function mostLikes(blogs) {
       maxLikes = likeCounts[author];
     }
   }
-  console.log(JSON.stringify(likeCounts));
   return { author: maxAuthor, likes: maxLikes };
 }
 
