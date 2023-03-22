@@ -1,8 +1,37 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFqYXkiLCJpZCI6IjY0MWFkZWMxNmRlYjAyMGQ4MDQzY2JmMSIsImlhdCI6MTY3OTQ4OTQ5MX0.kairWKZ3Uc6MBt5qCRlcm2NAeSrnMzKBFP-XHIt9rgQ
 
 {
-"content": "VS code rest client is a pretty handy tool", "important": true
+  "content": "New Note with using Authorization",
+  "important": true
+}
+
+###
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+"content": "New Note with user assinged", "important": true, "userId": "641adec16deb020d8043cbf1"
+}
+
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "ajay",
+  "name": "Super User",
+  "password": "801722"
+}
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "ajay",
+  "password": "801722"
 }
 
 ###
