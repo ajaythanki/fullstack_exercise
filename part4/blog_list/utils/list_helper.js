@@ -8,33 +8,33 @@ Exercises 4.3. - 4.7.
 */
 const dummy = (blogs) => {
   return 1;
-}
+};
 const totalLikes = (blogs) => {
   let sum = 0;
-  
-  blogs.forEach(element => {
+
+  blogs.forEach((element) => {
     sum += element.likes;
   });
-  
+
   return sum;
-}
+};
 const favoriteBlog = (blogs) => {
   const maxLikedBlog = blogs.reduce((prev, current) => {
-    return (prev.likes > current.likes) ? prev : current
+    return prev.likes > current.likes ? prev : current;
   });
- 
+
   return {
     title: maxLikedBlog.title,
     author: maxLikedBlog.author,
-    likes: maxLikedBlog.likes
+    likes: maxLikedBlog.likes,
   };
-}
+};
 
 function mostBlogs(blogs) {
   const blogCount = {};
   let topAuthor = "";
   let maxBlogs = 0;
-  
+
   blogs.forEach((blog) => {
     if (blog.author in blogCount) {
       blogCount[blog.author]++;
@@ -57,7 +57,7 @@ function mostLikes(blogs) {
   let maxAuthor = "";
   let maxLikes = 0;
 
-  blogs.forEach(blog => {
+  blogs.forEach((blog) => {
     const author = blog.author;
     const likes = blog.likes;
     if (author in likeCounts) {
@@ -81,5 +81,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
-  mostLikes
-}
+  mostLikes,
+};
