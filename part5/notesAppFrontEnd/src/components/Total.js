@@ -1,2 +1,2 @@
-const Total = ({ sum }) => <strong>Total of {sum} exercises</strong>
-export default Total
+const Total = ({ sum }) => <strong>Total of {sum} exercises</strong>;
+export default Total;
