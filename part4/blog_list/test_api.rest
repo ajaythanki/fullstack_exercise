@@ -22,13 +22,13 @@ DELETE http://localhost:3001/api/blogs/64186746aeaa6937683b4835
 
 
 ###
-POST http://localhost:3001/api/users
+POST https://bloglist.akthanki.repl.co/api/users
 Content-Type: application/json
 
 {
-  "username": "ak",
+  "username": "akthanki",
   "name": "Superuser",
-  "password": "801"
+  "password": "801722"
 }
 
 ###
