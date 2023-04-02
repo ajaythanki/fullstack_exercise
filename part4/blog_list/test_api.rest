@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/api/blogs
+GET http://localhost:3001/api/users
 ###
 
 DELETE http://localhost:3001/api/blogs/64186746aeaa6937683b4835
@@ -54,4 +54,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoY
   "author": "Amjad",
   "url": "/blog-10019",
   "likes": "215566"
+}
+
+
+###
+PUT http://localhost:3001/api/blogs/6426c8a2dddfab552c13fa4a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFrdGhhbmtpIiwiaWQiOiI2NDFjMmMxZDFiNGM4MzRlNmU0OWUzOTMiLCJpYXQiOjE2ODAyNjYxNjAsImV4cCI6MTY4MDI2OTc2MH0.wWySaGdNk0vzt94i-gRKPcYMRD0kt0B8wqj_hJbrW74
+
+{
+  "title": "Updated React JS",
+  "author": "Ajay Thanki",
+  "url": "https://reactjs.org/",
+  "likes": "1696969",
+  "user" : "641c2ba48a15efcc5e61cb23"
 }
