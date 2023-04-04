@@ -17,7 +17,7 @@ const Togglable = forwardRef((props, refs) => {
   });
 
   return (
-    <div>
+    <div className="togglableContent">
       <div>
         <button
           style={
