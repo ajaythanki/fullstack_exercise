@@ -24,7 +24,12 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
             </p>
             <p>{blog.author}</p>
             {blog.user.username === user.username && (
-              <button onClick={handleDelete} style={{backgroundColor:"blue", color:"white"}}>remove</button>
+              <button
+                onClick={handleDelete}
+                style={{ backgroundColor: "blue", color: "white" }}
+              >
+                remove
+              </button>
             )}
           </div>
         </Togglable>

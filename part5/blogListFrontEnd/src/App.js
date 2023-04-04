@@ -13,6 +13,10 @@ Exercises 5.5.-5.11.
 5.9: Blog list frontend, step9
 5.10: Blog list frontend, step10
 5.11: Blog list frontend, step11
+
+Exercise 5.12.
+5.12: Blog list frontend, step12
+
 */
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
@@ -61,23 +65,23 @@ const App = () => {
     try {
       const updatedBlog = await blogService.updateBlog(blogToUpdate);
       const updatedBlogs = [...blogs];
-  
+
       updatedBlogs.map((blog) => {
         if (blog.id === updatedBlog.id) blog.likes = updatedBlog.likes;
         return blog;
       });
-  
+
       updatedBlogs.sort((a, b) => (a.likes < b.likes ? 1 : -1));
-  
+
       setBlogs(updatedBlogs);
     } catch (error) {
-      showNotification(error.response.data.error)
+      showNotification(error.response.data.error);
     }
   };
   const handleDelete = async (blogObj) => {
-    const {id, title, author} = blogObj;
+    const { id, title, author } = blogObj;
 
-    if(window.confirm(`Remove ${title} by ${author}?`)){
+    if (window.confirm(`Remove ${title} by ${author}?`)) {
       try {
         const res = await blogService.deleteBlog(id);
         if (res === 204) {
@@ -85,14 +89,13 @@ const App = () => {
             (blog) => blog.id.toString() !== id.toString()
           );
           setBlogs(updatedBlogs);
-        }else{
-          showNotification("something went wrong...")
+        } else {
+          showNotification("something went wrong...");
         }
       } catch (error) {
-        showNotification(error.response.data.error)
+        showNotification(error.response.data.error);
       }
     }
-
   };
   const handleCreateBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility();
@@ -118,7 +121,7 @@ const App = () => {
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       setUser(user);
       blogService.setToken(user.token);
-      showNotification(`Logged in successfuly`, "success");
+      showNotification("Logged in successfuly", "success");
       return user.token;
     } catch (error) {
       showNotification(error.response.data.error);
