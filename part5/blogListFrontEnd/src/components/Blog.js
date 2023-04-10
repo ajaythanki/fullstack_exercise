@@ -7,8 +7,8 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-  // let user = window.localStorage.getItem("loggedBlogAppUser");
-  // user = JSON.parse(user);
+  let user = window.localStorage.getItem("loggedBlogAppUser");
+  user = JSON.parse(user);
 
   return (
     <div style={blogStyle}>
@@ -20,17 +20,18 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
           <div className="blog-content">
             <p>{blog.url}</p>
             <p>
-              {blog.likes} <button onClick={handleLike}>like</button>
+              <span className="blog-likes">{blog.likes}</span> <button id="btnLike" onClick={handleLike}>like</button>
             </p>
             <p className="author-name">{blog.author}</p>
-            {/* {blog.user.username === user.username && ( */}
-            <button
-              onClick={handleDelete}
-              style={{ backgroundColor: "blue", color: "white" }}
-            >
-              remove
-            </button>
-            {/* )} */}
+            {blog.user.username === user.username && (
+              <button
+                onClick={handleDelete}
+                style={{ backgroundColor: "blue", color: "white" }}
+                id="btnDelete"
+              >
+                remove
+              </button>
+            )}
           </div>
         </Togglable>
       </div>

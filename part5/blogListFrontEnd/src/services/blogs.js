@@ -1,6 +1,6 @@
 import axios from "axios";
-// const baseUrl = "http://localhost:3001/api/blogs";
-const baseUrl = "https://bloglist.akthanki.repl.co/api/blogs";
+const baseUrl = "http://localhost:3001/api/blogs";
+// const baseUrl = "https://bloglist.akthanki.repl.co/api/blogs";
 let token = null;
 
 const setToken = (newToken) => {

@@ -1,6 +1,6 @@
 import axios from "axios";
-// const baseUrl = "http://localhost:3001/api/users";
-const baseUrl = "https://bloglist.akthanki.repl.co/api/users";
+const baseUrl = "http://localhost:3001/api/users";
+// const baseUrl = "https://bloglist.akthanki.repl.co/api/users";
 
 const getAll = async () => {
   const response = await axios.get(baseUrl);
