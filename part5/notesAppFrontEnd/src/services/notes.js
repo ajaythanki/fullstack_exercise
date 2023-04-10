@@ -1,5 +1,7 @@
 import axios from "axios";
-const baseUrl = "https://nodejsexercise.akthanki.repl.co/api/notes";
+// const baseUrl = "https://nodejsexercise.akthanki.repl.co/api/notes";
+const baseUrl = "http://localhost:3001/api/notes";
+
 let token = null;
 
 const setToken = (newToken) => {
