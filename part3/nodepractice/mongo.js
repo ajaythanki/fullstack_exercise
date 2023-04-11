@@ -1,5 +1,3 @@
-// mongodb+srv://akthanki5:tmm6lbT6oJsU34Vz@cluster2.frplkn6.mongodb.net/test
-
 const mongoose = require('mongoose')
 
 if (process.argv.length<3) {
