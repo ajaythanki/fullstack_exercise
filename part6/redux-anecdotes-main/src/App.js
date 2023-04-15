@@ -6,6 +6,7 @@ Exercises 6.3.-6.8.
 6.6: anecdotes, step4
 6.7: anecdotes, step5
 6.8: anecdotes, step6
+6.9 Better anecdotes, step7
 
 */
 import AnecdoteForm from "./components/AnecdoteForm";
