@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 const anecdotesAtStart = [
   "If it hurts, do it more often",
   "Adding manpower to a late software project makes it later!",
@@ -19,33 +21,52 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
-const anecdotesReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "INCREMENT":
+const anecdotesSlice = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      state.push(asObject(action.payload));
+    },
+    incrementVote(state, action) {
       const updatedState = state.map((anecdote) => {
-        return anecdote.id === action.payload.id
+        return anecdote.id === action.payload
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote;
       });
       return updatedState;
-    case "CREATE":
-      return state.concat(asObject(action.payload.anecdote));
-    default:
-      return state;
-  }
-};
+    },
+  },
+});
 
-export const incrementVote = (id) => {
-  return {
-    type: "INCREMENT",
-    payload: { id },
-  };
-};
-export const createAnecdote = (anecdote) => {
-  return {
-    type: "CREATE",
-    payload: { anecdote },
-  };
-};
+// const anecdotesReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case "INCREMENT":
+//       const updatedState = state.map((anecdote) => {
+//         return anecdote.id === action.payload.id
+//           ? { ...anecdote, votes: anecdote.votes + 1 }
+//           : anecdote;
+//       });
+//       return updatedState;
+//     case "CREATE":
+//       return state.concat(asObject(action.payload.anecdote));
+//     default:
+//       return state;
+//   }
+// };
 
-export default anecdotesReducer;
+// export const incrementVote = (id) => {
+//   return {
+//     type: "INCREMENT",
+//     payload: { id },
+//   };
+// };
+// export const createAnecdote = (anecdote) => {
+//   return {
+//     type: "CREATE",
+//     payload: { anecdote },
+//   };
+// };
+
+export const { createAnecdote, incrementVote } = anecdotesSlice.actions;
+export default anecdotesSlice.reducer;

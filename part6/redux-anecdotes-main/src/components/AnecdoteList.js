@@ -1,20 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import { incrementVote } from "../reducers/anecdoteReducer";
 import Filter from "./Filter";
+import { notify } from "../reducers/notificationReducer";
 
-const Anecdote = ({anecdote, vote})=>{
-  return(<div key={anecdote.id}>
-    <div>{anecdote.content}</div>
-    <div>
-      has {anecdote.votes}
-      <button onClick={() => vote(anecdote.id)}>vote</button>
+const Anecdote = ({ anecdote, vote }) => {
+  return (
+    <div style={{marginTop:10, marginBottom:10}} key={anecdote.id}>
+      <div>{anecdote.content}</div>
+      <div>
+        has {anecdote.votes}
+        <button onClick={() => vote(anecdote.id)}>vote</button>
+      </div>
     </div>
-  </div>);
-}
+  );
+};
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(({ anecdotes, filter }) => {
-    return filter === ""
+    // console.log(filter);
+    return filter === "ALL" || filter === ""
       ? anecdotes
       : anecdotes.filter((anecdote) => {
           return anecdote.content.toLowerCase().includes(filter.toLowerCase());
@@ -25,6 +29,11 @@ const AnecdoteList = () => {
   const sortedAnecdotes = [...anecdotes].sort((a, b) => b.votes - a.votes);
   const vote = (id) => {
     dispatch(incrementVote(id));
+    const anecdote = anecdotes.find((anecdote) => anecdote.id === id);
+    dispatch(notify(`You voted '${anecdote.content}'`));
+    setTimeout(() => {
+      dispatch(notify(""));
+    }, 3000);
   };
   return (
     <>
