@@ -14,13 +14,28 @@ Exercises 6.10.-6.13.
 6.12 Better anecdotes, step10
 6.13 Better anecdotes, step11
 
+Exercises 6.14.-6.15.
+6.14 Anecdotes and the backend, step1
+6.15 Anecdotes and the backend, step2
+
 
 */
 import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
 import Notification from "./components/Notification";
+import { useEffect } from "react";
+import anecdoteService from "./services/anecdotes";
+import { setAnecdotes } from "./reducers/anecdoteReducer";
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    anecdoteService.getAll().then((anecdotes) => {
+      dispatch(setAnecdotes(anecdotes));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <h2>Anecdotes</h2>
