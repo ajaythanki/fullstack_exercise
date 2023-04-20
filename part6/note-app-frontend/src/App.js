@@ -1,8 +1,17 @@
-import NewNote from "./components/NewNote"
-import Notes from "./components/Notes"
-import VisibilityFilter from "./components/VisibilityFilter"
+import { useDispatch } from "react-redux";
+import NewNote from "./components/NewNote";
+import Notes from "./components/Notes";
+import VisibilityFilter from "./components/VisibilityFilter";
+import { useEffect } from "react";
+import { setNotes } from "./reducers/noteReducer";
+import noteService from "./services/notes";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    noteService.getAll().then((notes) => dispatch(setNotes(notes)));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <NewNote />
@@ -10,6 +19,6 @@ const App = () => {
       <Notes />
     </div>
   );
-}
+};
 
 export default App;
