@@ -18,24 +18,25 @@ Exercises 6.14.-6.15.
 6.14 Anecdotes and the backend, step1
 6.15 Anecdotes and the backend, step2
 
-
+Exercises 6.16.-6.19.
+6.16 Anecdotes and the backend, step3
+6.17 Anecdotes and the backend, step4
+6.18 Anecdotes and the backend, step5
+6.19 Anecdotes and the backend, step6
 */
+
 import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
 import Notification from "./components/Notification";
 import { useEffect } from "react";
-import anecdoteService from "./services/anecdotes";
-import { setAnecdotes } from "./reducers/anecdoteReducer";
+import { initializeAnecdotes } from "./reducers/anecdoteReducer";
 import { useDispatch } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    anecdoteService.getAll().then((anecdotes) => {
-      dispatch(setAnecdotes(anecdotes));
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      dispatch(initializeAnecdotes());
+  }, [dispatch]);
   return (
     <div>
       <h2>Anecdotes</h2>
