@@ -4,6 +4,9 @@ Exercise 6.20
 Exercise 6.21
 Exercise 6.22
 
+Exercises 6.23.-6.24.
+Exercise 6.23.
+Exercise 6.24.
 */
 
 
@@ -12,7 +15,10 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 import { getAnecdotes, updateAnecdote } from "./requests";
+import { useNotificationDispatch } from "./NotificationContext";
 const App = () => {
+  const notificationDispatch = useNotificationDispatch();
+
   const queryClient = useQueryClient();
   const updateAnecdoteMutation = useMutation(updateAnecdote, {
     onSuccess: (updatedAnecdote) => {
@@ -28,13 +34,21 @@ const App = () => {
   const result = useQuery("anecdotes", getAnecdotes, {
     refetchOnWindowFocus: false,
     onError: error => console.log(error),
+    onSuccess: console.log("onSuccess"),
     retry: 1
   });
   // console.log(result);
 
   const handleVote = (anecdote) => {
-    // console.log("vote", anecdote);
+    console.log("vote", anecdote);
     updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 });
+    notificationDispatch({
+      type: "SET_NOTIFICATION",
+      payload: `You Voted '${anecdote.content}'`,
+    });
+    setTimeout(() => {
+      notificationDispatch({ type: "SET_NOTIFICATION", payload: "" });
+    }, 5000);
   };
 
   if (result.isLoading) {
